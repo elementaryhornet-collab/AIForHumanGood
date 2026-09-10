@@ -1,0 +1,127 @@
+You are an expert accessibility-first web designer and full-stack engineer specializing in nonprofit, ethical AI, and disability-inclusive websites.
+
+Build a modern, scalable, and fully accessible website for a nonprofit whose mission is to use AI for human good. The organization supports multiple current and future initiatives. One flagship initiative is an already-built bone-conduction hearing assist mobile app for people with conductive hearing loss, but the website must not be single-app focused.
+
+GOALS
+- Clearly communicate an “AI for Human Good” mission
+- Support multiple initiatives via reusable, modular page templates
+- Build trust with beneficiaries, donors, partners, and grantmakers
+- Encourage app adoption, education, advocacy, and donations
+- Meet or exceed WCAG 2.2 AA accessibility standards
+
+DESIGN DIRECTION (2025 WEB)
+- Minimalist, warm, and human-centered
+- Generous white space and clear hierarchy
+- Subtle glassmorphism for cards (soft blur, low opacity)
+- Soft shadows (no harsh contrast)
+- Color palette:
+  - Primary: calm blues and greens
+  - Accent: teal or amber
+- Typography:
+  - Sans-serif (Inter, Source Sans 3, or system equivalent)
+  - Base font size ≥18px
+  - Strong line height and spacing
+- Fully responsive, mobile-first
+- Respect prefers-reduced-motion
+
+ACCESSIBILITY (NON-NEGOTIABLE)
+- WCAG 2.2 AA (AAA where feasible)
+- Keyboard-only navigation
+- Screen reader support (NVDA, JAWS, VoiceOver)
+- High contrast and dark mode support
+- Text resizing up to 200%
+- No audio-only communication
+- Captions and transcripts for all video
+- Semantic HTML, proper ARIA roles
+- Icons must always include text labels
+
+REQUIRED PAGES
+1. Home
+   - Clear AI-for-good mission above the fold
+   - Featured initiatives in a scalable card layout
+   - CTAs: Explore Our Work, Get Involved, Support the Mission
+
+2. About
+   - Mission, vision, values
+   - Ethical AI principles
+   - Accessibility and inclusion commitment
+   - Governance and transparency
+
+3. Our Initiatives (Hub)
+   - Modular, reusable initiative cards
+   - Each initiative includes:
+     - Problem
+     - Who it helps
+     - AI solution overview
+     - Impact and status
+
+4. Initiative Detail Template (Reusable)
+   - Human-centered explanation
+   - Visual diagrams (no sound reliance)
+   - Ethics, privacy, and data practices
+   - How to participate or benefit
+
+5. Hearing Accessibility Initiative
+   - Explains bone-conduction hearing assist app
+   - Plain-language explanation
+   - Supported devices
+   - App download links
+   - Privacy and safety assurances
+
+6. Accessibility & Ethics
+   - Accessibility statement
+   - Ethical AI framework
+   - Bias mitigation
+   - Community-first design principles
+
+7. Impact & Stories
+   - Text-first testimonials
+   - Quantitative impact metrics
+   - Captioned video optional
+
+8. Get Involved
+   - Volunteers
+   - Partnerships
+   - Research and advocacy
+
+9. Donate / Support
+   - Nonprofit status
+   - Donation transparency
+   - One-time and recurring donations
+   - Grant support information
+
+10. Resources
+    - AI ethics education
+    - Accessibility guides
+    - Downloadable accessible PDFs
+
+11. Contact
+    - Fully accessible contact form
+    - Multiple contact options
+
+TECHNICAL CONSTRAINTS
+- Use modern web stack
+- Prefer Next.js, Astro, or Nuxt
+- Tailwind CSS or CSS variables for styling
+- CMS-friendly structure for initiatives
+- No autoplay media
+- No inaccessible CAPTCHA
+
+CONTENT TONE
+- Plain language (≈8th-grade reading level)
+- Empowering, respectful, non-clinical
+- Avoid unnecessary AI jargon
+- Focus on dignity, independence, and trust
+
+OUTPUT REQUIREMENTS
+Provide:
+1. Site map and information architecture
+2. Modular component structure
+3. Page-by-page UX breakdown
+4. Accessibility considerations per page
+5. Example copy for key sections
+6. Technical implementation notes
+7. Risks and mitigation strategies
+
+DESIGN PHILOSOPHY
+The website should feel human, ethical, calm, and future-ready, clearly communicating that AI can be both powerful and compassionate.
