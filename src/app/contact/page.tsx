@@ -118,32 +118,6 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-
-              <div className="mt-12">
-                <h3 className="text-lg font-semibold text-foreground mb-4">
-                  Other Ways to Connect
-                </h3>
-                <div className="flex flex-wrap gap-4">
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
-                  >
-                    <span>LinkedIn</span>
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
-                  >
-                    <span>Twitter</span>
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
-                  >
-                    <span>GitHub</span>
-                  </a>
-                </div>
-              </div>
             </div>
 
             <div className="glass-card p-8">

@@ -40,7 +40,6 @@ const initiatives = [
       "Planned educational resources that will help communities understand and benefit from AI technology, with a focus on underserved populations.",
     status: "coming-soon" as const,
     category: "Education",
-    href: "/initiatives/ai-literacy",
     icon: (
       <svg
         className="h-6 w-6"
@@ -64,7 +63,6 @@ const initiatives = [
       "Next-generation tools that make digital communication accessible for people with visual, hearing, and cognitive disabilities.",
     status: "research" as const,
     category: "Research",
-    href: "/initiatives/communication-tools",
     icon: (
       <svg
         className="h-6 w-6"
@@ -88,7 +86,6 @@ const initiatives = [
       "AI-powered tools that help people who are blind or have low vision navigate their environment and access visual information.",
     status: "coming-soon" as const,
     category: "Accessibility",
-    href: "/initiatives/visual-assistance",
     icon: (
       <svg
         className="h-6 w-6"
@@ -117,7 +114,6 @@ const initiatives = [
       "AI solutions that help underserved communities access health information and resources in accessible, culturally appropriate ways.",
     status: "research" as const,
     category: "Healthcare",
-    href: "/initiatives/community-health",
     icon: (
       <svg
         className="h-6 w-6"
@@ -141,7 +137,6 @@ const initiatives = [
       "A job matching platform that uses AI to connect people with disabilities to employers committed to inclusive hiring practices.",
     status: "coming-soon" as const,
     category: "Employment",
-    href: "/initiatives/employment-platform",
     icon: (
       <svg
         className="h-6 w-6"

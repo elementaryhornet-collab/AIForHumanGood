@@ -35,10 +35,13 @@ src/
 │   ├── hearing-check/      # Weekly hearing check-in tool
 │   ├── contact/
 │   ├── donate/
-│   └── ...
+│   ├── get-involved/
+│   ├── about/
+│   ├── accessibility-ethics/
+│   └── privacy/
 ├── components/
 │   ├── layout/             # Header, Footer
-│   ├── ui/                 # Button, Card, Input (base components)
+│   ├── ui/                 # Button, Input (base components)
 │   ├── sections/           # Hero, InitiativeCard, CTASection, ImpactMetrics
 │   ├── hearing/            # Check-in flow, audiogram and trend charts
 │   └── forms/              # ContactForm, NotifyForm
@@ -91,8 +94,8 @@ Names present in `:root` but missing there silently compile to nothing.
 
 **Button**: Supports variants (primary, secondary, accent, outline, ghost), sizes, and can render as link via `href` prop.
 
-**Card**: Supports variants (default, glass, outlined). Glass variant uses glassmorphism with `backdrop-filter`.
-
 **Input/Textarea**: Always require `label` prop for accessibility. Support `error` and `hint` props.
+
+**InitiativeCard**: `href` is optional — an initiative with no page of its own renders as a non-clickable card, with its description shown in full rather than truncated.
 
 **Section components**: Always use `aria-labelledby` with heading IDs for screen reader navigation.

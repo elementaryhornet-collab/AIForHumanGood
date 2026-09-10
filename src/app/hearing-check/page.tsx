@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { Hero } from "@/components/sections/Hero";
 import { CTASection } from "@/components/sections/CTASection";
 import { HearingCheckIn } from "@/components/hearing/HearingCheckIn";
@@ -201,14 +200,7 @@ export default function HearingCheckPage() {
           <p className="mt-8 text-foreground-secondary">
             Bring your history with you — the check-in exports a CSV of every
             reading, which is more useful to a clinician than a description from
-            memory. More background is on our{" "}
-            <Link
-              href="/resources"
-              className="rounded font-medium text-primary underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-            >
-              resources page
-            </Link>
-            .
+            memory.
           </p>
         </div>
       </section>

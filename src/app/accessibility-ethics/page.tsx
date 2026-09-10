@@ -439,8 +439,8 @@ export default function AccessibilityEthicsPage() {
           href: "/contact",
         }}
         secondaryCta={{
-          text: "View Resources",
-          href: "/resources",
+          text: "Our Initiatives",
+          href: "/initiatives",
         }}
       />
     </>

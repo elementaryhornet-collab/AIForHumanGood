@@ -6,7 +6,8 @@ interface InitiativeCardProps {
   description: string;
   status: "active" | "coming-soon" | "research";
   category: string;
-  href: string;
+  /** Omitted for initiatives that have no page of their own yet. */
+  href?: string;
   icon?: React.ReactNode;
 }
 
@@ -36,13 +37,20 @@ export function InitiativeCard({
   const statusInfo = statusConfig[status];
 
   return (
-    <article className="group relative glass-card p-6 transition-all hover:shadow-lg hover:-translate-y-1">
-      <Link
-        href={href}
-        className="absolute inset-0 z-10 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-      >
-        <span className="sr-only">Learn more about {title}</span>
-      </Link>
+    <article
+      className={cn(
+        "group relative glass-card p-6 transition-all",
+        href && "hover:shadow-lg hover:-translate-y-1"
+      )}
+    >
+      {href && (
+        <Link
+          href={href}
+          className="absolute inset-0 z-10 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >
+          <span className="sr-only">Learn more about {title}</span>
+        </Link>
+      )}
 
       <div className="flex items-start gap-4">
         {icon && (
@@ -64,32 +72,46 @@ export function InitiativeCard({
               {statusInfo.label}
             </span>
           </div>
-          <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+          <h3
+            className={cn(
+              "text-lg font-semibold text-foreground transition-colors",
+              href && "group-hover:text-primary"
+            )}
+          >
             {title}
           </h3>
-          <p className="mt-2 text-foreground-secondary line-clamp-2">
+          {/* Without a page to read on, the description is all there is, so it
+              is not truncated. */}
+          <p
+            className={cn(
+              "mt-2 text-foreground-secondary",
+              href && "line-clamp-2"
+            )}
+          >
             {description}
           </p>
         </div>
       </div>
 
-      <div className="mt-4 flex items-center text-sm font-medium text-primary">
-        <span>Learn more</span>
-        <svg
-          className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="2"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-          />
-        </svg>
-      </div>
+      {href && (
+        <div className="mt-4 flex items-center text-sm font-medium text-primary">
+          <span>Learn more</span>
+          <svg
+            className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+            />
+          </svg>
+        </div>
+      )}
     </article>
   );
 }

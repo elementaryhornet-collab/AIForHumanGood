@@ -5,12 +5,10 @@ const footerNavigation = {
     { name: "Our Initiatives", href: "/initiatives" },
     { name: "Hearing Accessibility", href: "/initiatives/hearing-accessibility" },
     { name: "Weekly Hearing Check-in", href: "/hearing-check" },
-    { name: "Impact Stories", href: "/impact" },
   ],
   organization: [
     { name: "About Us", href: "/about" },
     { name: "Accessibility & Ethics", href: "/accessibility-ethics" },
-    { name: "Resources", href: "/resources" },
   ],
   getInvolved: [
     { name: "Volunteer", href: "/get-involved" },

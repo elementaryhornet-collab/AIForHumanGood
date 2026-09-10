@@ -34,7 +34,6 @@ const initiatives = [
       "Planned educational resources that will help communities understand and benefit from AI technology, with a focus on underserved populations.",
     status: "coming-soon" as const,
     category: "Education",
-    href: "/initiatives/ai-literacy",
     icon: (
       <svg
         className="h-6 w-6"
@@ -58,7 +57,6 @@ const initiatives = [
       "Next-generation tools that make digital communication accessible for people with visual, hearing, and cognitive disabilities.",
     status: "research" as const,
     category: "Research",
-    href: "/initiatives/communication-tools",
     icon: (
       <svg
         className="h-6 w-6"
