@@ -61,10 +61,10 @@ export function NotifyForm() {
           </svg>
         </div>
         <h3 className="text-lg font-semibold text-foreground">
-          You're on the list!
+          You’re on the list!
         </h3>
         <p className="mt-2 text-foreground-secondary">
-          We'll notify you as soon as the app launches.
+          We’ll notify you as soon as the app launches.
         </p>
       </div>
     );
@@ -83,7 +83,7 @@ export function NotifyForm() {
             name="email"
             required
             placeholder="Enter your email"
-            className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-3 text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="flex-1 rounded-lg border border-line-strong bg-surface px-4 py-3 text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
           <input type="hidden" name="source" value="hearing-app-notify" />
           <Button
@@ -106,7 +106,7 @@ export function NotifyForm() {
       )}
 
       <p className="text-sm text-foreground-secondary text-center">
-        We'll only email you about the app launch. No spam, ever.
+        We’ll only email you about the app launch. No spam, ever.
       </p>
     </form>
   );

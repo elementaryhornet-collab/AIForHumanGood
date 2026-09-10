@@ -229,7 +229,7 @@ export default function AboutPage() {
               ].map((principle) => (
                 <div
                   key={principle.number}
-                  className="flex gap-6 p-6 rounded-xl border border-gray-200 hover:border-primary/30 transition-colors"
+                  className="flex gap-6 p-6 rounded-xl border border-line hover:border-primary/30 transition-colors"
                 >
                   <span className="text-3xl font-bold text-primary/30">
                     {principle.number}

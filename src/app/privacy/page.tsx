@@ -30,7 +30,7 @@ export default function PrivacyPolicyPage() {
                   1. Introduction
                 </h2>
                 <p className="mt-4 text-foreground-secondary leading-relaxed">
-                  AI For Human Good ("we," "our," or "us") is committed to
+                  AI For Human Good (“we,” “our,” or “us”) is committed to
                   protecting your privacy. This Privacy Policy explains how we
                   collect, use, disclose, and safeguard your information when
                   you visit our website or use our services.
@@ -243,7 +243,7 @@ export default function PrivacyPolicyPage() {
 
               <div>
                 <h2 className="text-2xl font-bold text-foreground">
-                  8. Children's Privacy
+                  8. Children’s Privacy
                 </h2>
                 <p className="mt-4 text-foreground-secondary leading-relaxed">
                   Our website is not directed at children under 13. We do not
@@ -260,7 +260,7 @@ export default function PrivacyPolicyPage() {
                 <p className="mt-4 text-foreground-secondary leading-relaxed">
                   We may update this Privacy Policy from time to time. We will
                   notify you of any changes by posting the new policy on this
-                  page and updating the "Last updated" date.
+                  page and updating the “Last updated” date.
                 </p>
               </div>
 
@@ -272,7 +272,7 @@ export default function PrivacyPolicyPage() {
                   If you have questions about this Privacy Policy or our
                   practices, please contact us:
                 </p>
-                <div className="mt-4 p-6 rounded-xl border border-gray-200 bg-background-secondary">
+                <div className="mt-4 p-6 rounded-xl border border-line bg-background-secondary">
                   <p className="text-foreground font-semibold">
                     AI For Human Good
                   </p>

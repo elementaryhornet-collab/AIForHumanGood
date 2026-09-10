@@ -399,7 +399,7 @@ export default function AccessibilityEthicsPage() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="flex gap-4 p-6 rounded-xl border border-gray-200"
+                  className="flex gap-4 p-6 rounded-xl border border-line"
                 >
                   <svg
                     className="h-6 w-6 text-primary shrink-0 mt-0.5"

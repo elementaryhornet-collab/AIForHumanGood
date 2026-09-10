@@ -108,7 +108,7 @@ export default function ImpactPage() {
                     {testimonial.quote}
                   </p>
                 </div>
-                <footer className="mt-6 pt-4 border-t border-gray-100">
+                <footer className="mt-6 pt-4 border-t border-line">
                   <p className="font-semibold text-foreground">
                     {testimonial.author}
                   </p>
@@ -136,15 +136,15 @@ export default function ImpactPage() {
                 id="outcomes-heading"
                 className="text-3xl font-bold text-foreground sm:text-4xl"
               >
-                How We'll Measure Success
+                How We’ll Measure Success
               </h2>
               <p className="mt-6 text-lg text-foreground-secondary leading-relaxed">
                 We believe in accountability and transparency. As we grow,
-                we'll rigorously measure our impact to ensure we're truly
+                we’ll rigorously measure our impact to ensure we’re truly
                 making a difference.
               </p>
               <p className="mt-4 text-lg text-foreground-secondary leading-relaxed">
-                Our impact metrics will go beyond simple download counts. We'll
+                Our impact metrics will go beyond simple download counts. We’ll
                 measure real outcomes: improved quality of life, increased
                 independence, and genuine community benefit.
               </p>

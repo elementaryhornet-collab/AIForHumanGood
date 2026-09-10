@@ -230,7 +230,7 @@ export default function GetInvolvedPage() {
 
               <div className="mt-8">
                 <h3 className="text-lg font-semibold text-foreground mb-4">
-                  Skills We're Looking For
+                  Skills We’re Looking For
                 </h3>
                 <ul className="space-y-3">
                   {[
@@ -344,7 +344,7 @@ export default function GetInvolvedPage() {
             ].map((partner) => (
               <div
                 key={partner.title}
-                className="p-6 rounded-xl border border-gray-200 text-center"
+                className="p-6 rounded-xl border border-line text-center"
               >
                 <h3 className="text-lg font-semibold text-foreground">
                   {partner.title}

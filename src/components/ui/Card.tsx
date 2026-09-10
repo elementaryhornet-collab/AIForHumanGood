@@ -8,6 +8,12 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
   as?: "div" | "article" | "section";
 }
 
+const variantStyles = {
+  default: "bg-surface shadow-soft border border-line",
+  glass: "glass-card",
+  outlined: "border-2 border-line bg-transparent",
+} as const;
+
 export function Card({
   variant = "default",
   href,
@@ -16,30 +22,27 @@ export function Card({
   children,
   ...props
 }: CardProps) {
-  const variantStyles = {
-    default: "bg-white shadow-soft border border-gray-100",
-    glass: "glass-card",
-    outlined: "border-2 border-gray-200 bg-transparent",
-  };
-
   const baseStyles = cn(
     "rounded-xl p-6 transition-all",
     variantStyles[variant],
-    href && "hover:shadow-lg hover:-translate-y-1 cursor-pointer",
+    href && "hover:shadow-lg hover:-translate-y-1",
     className
   );
 
+  // A linked card is the link, rather than a bare overlay stretched across one.
+  // The previous version hid that overlay from assistive tech and pulled it out
+  // of the tab order, which left the card unreachable without a mouse.
   if (href) {
     return (
-      <Component className={baseStyles} {...props}>
-        <Link
-          href={href}
-          className="absolute inset-0 z-10 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-          aria-hidden="true"
-          tabIndex={-1}
-        />
-        <div className="relative">{children}</div>
-      </Component>
+      <Link
+        href={href}
+        className={cn(
+          baseStyles,
+          "block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        )}
+      >
+        {children}
+      </Link>
     );
   }
 
@@ -50,9 +53,7 @@ export function Card({
   );
 }
 
-interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {}
-
-export function CardHeader({ className, ...props }: CardHeaderProps) {
+export function CardHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("mb-4", className)} {...props} />;
 }
 
@@ -73,9 +74,10 @@ export function CardTitle({
   );
 }
 
-interface CardDescriptionProps extends HTMLAttributes<HTMLParagraphElement> {}
-
-export function CardDescription({ className, ...props }: CardDescriptionProps) {
+export function CardDescription({
+  className,
+  ...props
+}: HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
       className={cn("text-foreground-secondary leading-relaxed", className)}
@@ -84,18 +86,17 @@ export function CardDescription({ className, ...props }: CardDescriptionProps) {
   );
 }
 
-interface CardContentProps extends HTMLAttributes<HTMLDivElement> {}
-
-export function CardContent({ className, ...props }: CardContentProps) {
-  return <div className={cn("", className)} {...props} />;
+export function CardContent({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn(className)} {...props} />;
 }
 
-interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {}
-
-export function CardFooter({ className, ...props }: CardFooterProps) {
+export function CardFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("mt-6 flex items-center gap-4 pt-4 border-t border-gray-100", className)}
+      className={cn(
+        "mt-6 flex items-center gap-4 pt-4 border-t border-line",
+        className
+      )}
       {...props}
     />
   );

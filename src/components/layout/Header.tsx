@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 const navigation = [
@@ -16,10 +16,13 @@ const navigation = [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
+  const closeMenu = useCallback(() => {
     setMobileMenuOpen(false);
-  }, [pathname]);
+    toggleRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -32,8 +35,45 @@ export function Header() {
     };
   }, [mobileMenuOpen]);
 
+  // The panel declares aria-modal, which hides the rest of the page from
+  // assistive tech. That is only honest if focus actually goes in, stays in,
+  // and comes back out again — so escape closes it and tab wraps inside it.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const panel = menuRef.current;
+    panel?.querySelector<HTMLElement>("a, button")?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMenu();
+        return;
+      }
+      if (event.key !== "Tab" || !panel) return;
+
+      const focusable = panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileMenuOpen, closeMenu]);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-background/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-line bg-background/95 backdrop-blur-sm">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
@@ -41,7 +81,7 @@ export function Header() {
         <div className="flex lg:flex-1">
           <Link
             href="/"
-            className="flex items-center gap-2 text-xl font-semibold text-primary transition-colors hover:text-ocean-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            className="flex items-center gap-2 text-xl font-semibold text-primary transition-colors hover:text-primary-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           >
             <svg
               className="h-8 w-8"
@@ -67,7 +107,8 @@ export function Header() {
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-md p-2 text-foreground hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            ref={toggleRef}
+            className="inline-flex items-center justify-center rounded-md p-2 text-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
@@ -127,7 +168,7 @@ export function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
             href="/donate"
-            className="rounded-full bg-amber px-5 py-2.5 text-base font-semibold text-charcoal shadow-sm transition-all hover:bg-amber-dark hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber"
+            className="rounded-full bg-amber px-5 py-2.5 text-base font-semibold text-accent-foreground shadow-sm transition-all hover:bg-amber-dark hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber"
           >
             Donate
           </Link>
@@ -137,7 +178,8 @@ export function Header() {
       {mobileMenuOpen && (
         <div
           id="mobile-menu"
-          className="fixed inset-x-0 top-[73px] bottom-0 z-50 bg-background lg:hidden"
+          ref={menuRef}
+          className="fixed inset-x-0 top-[73px] bottom-0 z-50 overflow-y-auto bg-background lg:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation menu"
@@ -147,20 +189,22 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`block rounded-lg px-4 py-3 text-lg font-medium transition-colors hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                className={`block rounded-lg px-4 py-3 text-lg font-medium transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                   pathname === item.href
                     ? "bg-primary/10 text-primary"
                     : "text-foreground"
                 }`}
                 aria-current={pathname === item.href ? "page" : undefined}
+                onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
               </Link>
             ))}
-            <div className="mt-4 border-t border-gray-200 pt-4">
+            <div className="mt-4 border-t border-line pt-4">
               <Link
                 href="/donate"
-                className="block w-full rounded-full bg-amber px-5 py-3 text-center text-lg font-semibold text-charcoal shadow-sm transition-all hover:bg-amber-dark"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block w-full rounded-full bg-amber px-5 py-3 text-center text-lg font-semibold text-accent-foreground shadow-sm transition-all hover:bg-amber-dark"
               >
                 Donate
               </Link>

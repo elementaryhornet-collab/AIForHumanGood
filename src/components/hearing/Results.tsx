@@ -23,17 +23,17 @@ const TONE: Record<ChangeDirection, { border: string; text: string; word: string
   {
     better: {
       border: "border-success/40 bg-success/10",
-      text: "text-forest-dark",
+      text: "text-success-text",
       word: "Improved",
     },
     steady: {
-      border: "border-gray-300 bg-background-secondary",
+      border: "border-line-strong bg-background-secondary",
       text: "text-foreground",
       word: "Steady",
     },
     worse: {
       border: "border-warning/50 bg-warning/10",
-      text: "text-amber-dark",
+      text: "text-warning-text",
       word: "Declined",
     },
   };
@@ -114,7 +114,7 @@ export function Results({ store }: ResultsProps) {
             </div>
 
             {comparison && comparison.notable.length > 0 && (
-              <div className="mt-6 rounded-xl border border-gray-200 p-5">
+              <div className="mt-6 rounded-xl border border-line p-5">
                 <h3 className="font-semibold text-foreground">
                   Individual pitches that moved a lot
                 </h3>
@@ -211,19 +211,19 @@ export function Results({ store }: ResultsProps) {
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="text-sm text-foreground-secondary">
-                <th scope="col" className="border-b border-gray-200 p-3">
+                <th scope="col" className="border-b border-line p-3">
                   Date
                 </th>
-                <th scope="col" className="border-b border-gray-200 p-3">
+                <th scope="col" className="border-b border-line p-3">
                   Right avg
                 </th>
-                <th scope="col" className="border-b border-gray-200 p-3">
+                <th scope="col" className="border-b border-line p-3">
                   Left avg
                 </th>
-                <th scope="col" className="border-b border-gray-200 p-3">
+                <th scope="col" className="border-b border-line p-3">
                   Setup
                 </th>
-                <th scope="col" className="border-b border-gray-200 p-3">
+                <th scope="col" className="border-b border-line p-3">
                   Baseline
                 </th>
               </tr>
@@ -234,19 +234,19 @@ export function Results({ store }: ResultsProps) {
                 const left = pta(session, "left");
                 return (
                   <tr key={session.id}>
-                    <th scope="row" className="border-b border-gray-200 p-3 font-medium">
+                    <th scope="row" className="border-b border-line p-3 font-medium">
                       {new Date(session.date).toLocaleDateString()}
                     </th>
-                    <td className="border-b border-gray-200 p-3">
+                    <td className="border-b border-line p-3">
                       {right === null ? "—" : Math.round(right)}
                     </td>
-                    <td className="border-b border-gray-200 p-3">
+                    <td className="border-b border-line p-3">
                       {left === null ? "—" : Math.round(left)}
                     </td>
-                    <td className="border-b border-gray-200 p-3 text-sm text-foreground-secondary">
+                    <td className="border-b border-line p-3 text-sm text-foreground-secondary">
                       {session.setupLabel || "Not recorded"}
                     </td>
-                    <td className="border-b border-gray-200 p-3">
+                    <td className="border-b border-line p-3">
                       {session.id === baseline.id ? (
                         <span className="font-medium text-primary">Current</span>
                       ) : (
@@ -333,7 +333,7 @@ function Note({ title, children }: { title: string; children: React.ReactNode })
   return (
     <div className="flex gap-3 rounded-xl border border-warning/50 bg-warning/10 p-5">
       <svg
-        className="h-6 w-6 shrink-0 text-amber-dark"
+        className="h-6 w-6 shrink-0 text-warning-text"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth="2"

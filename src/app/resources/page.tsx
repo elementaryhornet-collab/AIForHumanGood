@@ -93,12 +93,12 @@ const resources = [
 const typeColors: Record<string, string> = {
   Guide: "bg-ocean/10 text-ocean",
   Article: "bg-forest/10 text-forest",
-  PDF: "bg-amber/10 text-amber-dark",
-  Tutorial: "bg-teal/10 text-teal-dark",
+  PDF: "bg-amber/10 text-warning-text",
+  Tutorial: "bg-teal/10 text-teal-text",
   Resource: "bg-primary/10 text-primary",
   Curriculum: "bg-success/10 text-success",
   Toolkit: "bg-info/10 text-info",
-  Directory: "bg-gray-100 text-gray-600",
+  Directory: "bg-muted text-muted-foreground",
 };
 
 export default function ResourcesPage() {
@@ -126,7 +126,7 @@ export default function ResourcesPage() {
                     <div className="flex items-center justify-between mb-3">
                       <span
                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                          typeColors[item.type] || "bg-gray-100 text-gray-600"
+                          typeColors[item.type] || "bg-muted text-muted-foreground"
                         }`}
                       >
                         {item.type}
@@ -238,7 +238,7 @@ export default function ResourcesPage() {
                 href={resource.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-6 rounded-xl border border-gray-200 hover:border-primary/30 transition-colors group"
+                className="p-6 rounded-xl border border-line hover:border-primary/30 transition-colors group"
               >
                 <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
                   {resource.name}

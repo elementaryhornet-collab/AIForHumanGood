@@ -37,7 +37,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   outline:
     "border-2 border-primary text-primary bg-transparent hover:bg-primary/10 focus-visible:outline-primary",
   ghost:
-    "text-foreground hover:bg-gray-100 focus-visible:outline-primary",
+    "text-foreground hover:bg-muted focus-visible:outline-primary",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

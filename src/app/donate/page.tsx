@@ -56,7 +56,7 @@ export default function DonatePage() {
                 ].map((item) => (
                   <div
                     key={item.amount}
-                    className="flex items-start gap-4 p-4 rounded-xl border border-gray-200"
+                    className="flex items-start gap-4 p-4 rounded-xl border border-line"
                   >
                     <span className="text-2xl font-bold text-primary">
                       {item.amount}
@@ -83,7 +83,7 @@ export default function DonatePage() {
                         <button
                           key={amount}
                           type="button"
-                          className="rounded-lg border-2 border-gray-200 px-4 py-3 text-lg font-semibold text-foreground transition-all hover:border-primary hover:bg-primary/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                          className="rounded-lg border-2 border-line px-4 py-3 text-lg font-semibold text-foreground transition-all hover:border-primary hover:bg-primary/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                         >
                           {amount}
                         </button>
@@ -108,7 +108,7 @@ export default function DonatePage() {
                       id="custom-amount"
                       name="customAmount"
                       min="1"
-                      className="block w-full rounded-lg border border-gray-300 bg-white pl-8 pr-4 py-3 text-foreground placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      className="block w-full rounded-lg border border-line-strong bg-surface pl-8 pr-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                       placeholder="Enter amount"
                     />
                   </div>
@@ -127,7 +127,7 @@ export default function DonatePage() {
                         defaultChecked
                         className="peer sr-only"
                       />
-                      <span className="block rounded-lg border-2 border-gray-200 px-4 py-3 text-center font-medium text-foreground transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary cursor-pointer hover:border-gray-300">
+                      <span className="block rounded-lg border-2 border-line px-4 py-3 text-center font-medium text-foreground transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary cursor-pointer hover:border-line-strong">
                         One-time
                       </span>
                     </label>
@@ -138,7 +138,7 @@ export default function DonatePage() {
                         value="monthly"
                         className="peer sr-only"
                       />
-                      <span className="block rounded-lg border-2 border-gray-200 px-4 py-3 text-center font-medium text-foreground transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary cursor-pointer hover:border-gray-300">
+                      <span className="block rounded-lg border-2 border-line px-4 py-3 text-center font-medium text-foreground transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary cursor-pointer hover:border-line-strong">
                         Monthly
                       </span>
                     </label>
@@ -262,7 +262,7 @@ export default function DonatePage() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="p-6 rounded-xl border border-gray-200"
+                className="p-6 rounded-xl border border-line"
               >
                 <h3 className="text-lg font-semibold text-foreground">
                   {item.title}

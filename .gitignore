@@ -48,3 +48,6 @@ next-env.d.ts
 
 # stray file from a botched shell redirect on windows
 /nul
+
+# compiled output for the test suite
+/.test-build/

@@ -64,7 +64,7 @@ export function ContactForm() {
           Message Sent!
         </h3>
         <p className="mt-2 text-foreground-secondary">
-          Thank you for reaching out. We'll get back to you within 2 business
+          Thank you for reaching out. We’ll get back to you within 2 business
           days.
         </p>
         <Button
@@ -124,7 +124,7 @@ export function ContactForm() {
           id="subject"
           name="subject"
           required
-          className="block w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="block w-full rounded-lg border border-line-strong bg-surface px-4 py-3 text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
         >
           <option value="">Select a subject</option>
           <option value="general">General Inquiry</option>
@@ -149,10 +149,10 @@ export function ContactForm() {
           type="checkbox"
           id="accessibility"
           name="accessibility"
-          className="mt-1 h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
+          className="mt-1 h-5 w-5 rounded border-line-strong text-primary focus:ring-primary"
         />
         <label htmlFor="accessibility" className="text-sm text-foreground-secondary">
-          I need accessibility accommodations for communication (we'll follow
+          I need accessibility accommodations for communication (we’ll follow
           up to understand your needs)
         </label>
       </div>

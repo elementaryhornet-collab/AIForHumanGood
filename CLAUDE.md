@@ -31,7 +31,8 @@ src/
 │   ├── page.tsx            # Home page
 │   ├── about/
 │   ├── initiatives/
-│   │   └── [slug]/         # Dynamic initiative pages
+│   │   └── hearing-accessibility/   # Flagship initiative (static route)
+│   ├── hearing-check/      # Weekly hearing check-in tool
 │   ├── contact/
 │   ├── donate/
 │   └── ...
@@ -39,10 +40,21 @@ src/
 │   ├── layout/             # Header, Footer
 │   ├── ui/                 # Button, Card, Input (base components)
 │   ├── sections/           # Hero, InitiativeCard, CTASection, ImpactMetrics
-│   └── forms/              # ContactForm
+│   ├── hearing/            # Check-in flow, audiogram and trend charts
+│   └── forms/              # ContactForm, NotifyForm
 └── lib/
-    └── utils.ts            # cn() helper for class merging
+    ├── utils.ts            # cn() helper for class merging
+    ├── config.ts           # Contact email
+    ├── audiometry.ts       # Tone generation + threshold staircase
+    └── hearing-history.ts  # Check-in storage and trend analysis
+
+tests/
+├── contrast.test.mjs       # WCAG AA across all four theme states
+└── audiometry.test.cjs     # Staircase against simulated listeners
 ```
+
+Initiative pages are static routes, not a `[slug]` collection — `output: "export"`
+means every route is prerendered at build time.
 
 ## Design Tokens
 
@@ -51,7 +63,18 @@ Colors defined in `src/app/globals.css` as CSS custom properties:
 - Accent: `--color-amber` (#d4a039), `--color-teal` (#3a9d9d)
 - All colors have light/dark variants and meet WCAG AA contrast
 
-Theme colors automatically adjust via `prefers-color-scheme: dark` and `prefers-contrast: high`.
+Theme colors automatically adjust via `prefers-color-scheme: dark` and
+`prefers-contrast: high`, including the combination of both.
+
+**Never hardcode a literal color in a component.** Use the semantic tokens, which
+flip with the theme: `surface` (cards, inputs), `line` / `line-strong` (borders),
+`muted` / `muted-foreground` (subdued fills and text), and `success-text` /
+`warning-text` / `teal-text` for badge text on a tint. A Tailwind class such as
+`bg-white` or `border-gray-200` only works on one ground and will break the other
+theme. `npm test` fails the build if any token pairing drops below AA.
+
+A color name only becomes a utility if it is mapped in the `@theme inline` block.
+Names present in `:root` but missing there silently compile to nothing.
 
 ## Accessibility Requirements (Non-Negotiable)
 

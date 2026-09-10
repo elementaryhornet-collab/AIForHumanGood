@@ -287,26 +287,26 @@ export function Audiogram({ session, baseline }: AudiogramProps) {
             </caption>
             <thead>
               <tr>
-                <th scope="col" className="border-b border-gray-200 p-2 text-left">
+                <th scope="col" className="border-b border-line p-2 text-left">
                   Pitch
                 </th>
-                <th scope="col" className="border-b border-gray-200 p-2 text-left">
+                <th scope="col" className="border-b border-line p-2 text-left">
                   Right ear
                 </th>
-                <th scope="col" className="border-b border-gray-200 p-2 text-left">
+                <th scope="col" className="border-b border-line p-2 text-left">
                   Left ear
                 </th>
                 {showBaseline && (
                   <>
                     <th
                       scope="col"
-                      className="border-b border-gray-200 p-2 text-left"
+                      className="border-b border-line p-2 text-left"
                     >
                       Right change
                     </th>
                     <th
                       scope="col"
-                      className="border-b border-gray-200 p-2 text-left"
+                      className="border-b border-line p-2 text-left"
                     >
                       Left change
                     </th>
@@ -337,22 +337,22 @@ export function Audiogram({ session, baseline }: AudiogramProps) {
                   <tr key={frequency}>
                     <th
                       scope="row"
-                      className="border-b border-gray-200 p-2 text-left font-medium"
+                      className="border-b border-line p-2 text-left font-medium"
                     >
                       {formatFrequency(frequency)}
                     </th>
-                    <td className="border-b border-gray-200 p-2">
+                    <td className="border-b border-line p-2">
                       {right?.noResponse ? "No response" : (right?.level ?? "—")}
                     </td>
-                    <td className="border-b border-gray-200 p-2">
+                    <td className="border-b border-line p-2">
                       {left?.noResponse ? "No response" : (left?.level ?? "—")}
                     </td>
                     {showBaseline && (
                       <>
-                        <td className="border-b border-gray-200 p-2">
+                        <td className="border-b border-line p-2">
                           {delta(right, rightBase)}
                         </td>
-                        <td className="border-b border-gray-200 p-2">
+                        <td className="border-b border-line p-2">
                           {delta(left, leftBase)}
                         </td>
                       </>

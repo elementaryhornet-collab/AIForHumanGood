@@ -26,7 +26,7 @@ export default function HearingCheckPage() {
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="flex gap-4 rounded-xl border-2 border-amber p-6">
             <svg
-              className="h-7 w-7 shrink-0 text-amber-dark"
+              className="h-7 w-7 shrink-0 text-warning-text"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="2"
@@ -129,7 +129,7 @@ export default function HearingCheckPage() {
             ))}
           </div>
 
-          <div className="mx-auto mt-12 max-w-3xl rounded-xl border border-gray-200 bg-background p-6">
+          <div className="mx-auto mt-12 max-w-3xl rounded-xl border border-line bg-background p-6">
             <h3 className="text-lg font-semibold text-foreground">
               Why some tones are silent
             </h3>
@@ -244,7 +244,7 @@ export default function HearingCheckPage() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="flex gap-4 rounded-xl border border-gray-200 bg-background p-6"
+                className="flex gap-4 rounded-xl border border-line bg-background p-6"
               >
                 <svg
                   className="h-6 w-6 shrink-0 text-success"

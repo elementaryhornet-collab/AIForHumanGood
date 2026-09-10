@@ -191,7 +191,7 @@ export default function InitiativesPage() {
             </h2>
             <p className="mt-4 text-lg text-foreground-secondary max-w-3xl">
               These are our priority initiatives currently in active development.
-              We're working to bring them to life as soon as possible.
+              We’re working to bring them to life as soon as possible.
             </p>
           </div>
 
@@ -216,7 +216,7 @@ export default function InitiativesPage() {
               In Research
             </h2>
             <p className="mt-4 text-lg text-foreground-secondary max-w-3xl">
-              These initiatives are in early research stages. We're exploring
+              These initiatives are in early research stages. We’re exploring
               their feasibility and seeking partners to help develop them.
             </p>
           </div>

@@ -17,7 +17,7 @@ const statusConfig = {
   },
   "coming-soon": {
     label: "Coming Soon",
-    className: "bg-amber/10 text-amber-dark",
+    className: "bg-amber/10 text-warning-text",
   },
   research: {
     label: "In Research",

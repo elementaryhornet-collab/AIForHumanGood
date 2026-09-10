@@ -27,7 +27,7 @@ const footerNavigation = {
 export function Footer() {
   return (
     <footer
-      className="border-t border-gray-200 bg-background-secondary"
+      className="border-t border-line bg-background-secondary"
       aria-labelledby="footer-heading"
     >
       <h2 id="footer-heading" className="sr-only">
@@ -142,7 +142,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-gray-200 pt-8">
+        <div className="mt-12 border-t border-line pt-8">
           <p className="text-center text-sm text-foreground-secondary">
             &copy; {new Date().getFullYear()} AI For Human Good. All rights
             reserved. Built with accessibility at its core.

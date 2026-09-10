@@ -26,7 +26,7 @@ interface TrendChartProps {
 export function TrendChart({ sessions }: TrendChartProps) {
   if (sessions.length < 2) {
     return (
-      <p className="rounded-xl border border-dashed border-gray-300 p-6 text-center text-foreground-secondary">
+      <p className="rounded-xl border border-dashed border-line-strong p-6 text-center text-foreground-secondary">
         Your trend appears here after your second check-in. One result on its own
         has nothing to be compared against.
       </p>
@@ -220,13 +220,13 @@ export function TrendChart({ sessions }: TrendChartProps) {
             </caption>
             <thead>
               <tr>
-                <th scope="col" className="border-b border-gray-200 p-2 text-left">
+                <th scope="col" className="border-b border-line p-2 text-left">
                   Check-in
                 </th>
-                <th scope="col" className="border-b border-gray-200 p-2 text-left">
+                <th scope="col" className="border-b border-line p-2 text-left">
                   Right average
                 </th>
-                <th scope="col" className="border-b border-gray-200 p-2 text-left">
+                <th scope="col" className="border-b border-line p-2 text-left">
                   Left average
                 </th>
               </tr>
@@ -239,14 +239,14 @@ export function TrendChart({ sessions }: TrendChartProps) {
                   <tr key={session.id}>
                     <th
                       scope="row"
-                      className="border-b border-gray-200 p-2 text-left font-medium"
+                      className="border-b border-line p-2 text-left font-medium"
                     >
                       {new Date(session.date).toLocaleDateString()}
                     </th>
-                    <td className="border-b border-gray-200 p-2">
+                    <td className="border-b border-line p-2">
                       {right === null ? "—" : Math.round(right)}
                     </td>
-                    <td className="border-b border-gray-200 p-2">
+                    <td className="border-b border-line p-2">
                       {left === null ? "—" : Math.round(left)}
                     </td>
                   </tr>

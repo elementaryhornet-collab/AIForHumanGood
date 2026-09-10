@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { CTASection } from "@/components/sections/CTASection";
 import { NotifyForm } from "@/components/forms/NotifyForm";
@@ -21,7 +20,7 @@ export default function HearingAccessibilityPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <span className="inline-flex items-center rounded-full bg-amber/10 px-3 py-1 text-sm font-medium text-amber-dark">
+                <span className="inline-flex items-center rounded-full bg-amber/10 px-3 py-1 text-sm font-medium text-warning-text">
                   In Development
                 </span>
                 <span className="text-foreground-secondary">Accessibility</span>
@@ -33,7 +32,7 @@ export default function HearingAccessibilityPage() {
                 Hearing Accessibility App
               </h1>
               <p className="mt-6 text-lg leading-relaxed text-foreground-secondary">
-                We're building a bone-conduction hearing assist app that will use
+                We’re building a bone-conduction hearing assist app that will use
                 your smartphone to help people with conductive hearing loss
                 experience sound in new ways. Designed with accessibility at its
                 core, it will be completely free when launched.
@@ -77,7 +76,7 @@ export default function HearingAccessibilityPage() {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl rounded-2xl border-2 border-primary bg-background p-8 sm:p-10">
-            <span className="inline-flex items-center rounded-full bg-forest/10 px-3 py-1 text-sm font-medium text-forest-dark">
+            <span className="inline-flex items-center rounded-full bg-forest/10 px-3 py-1 text-sm font-medium text-success-text">
               Available now
             </span>
             <h2
@@ -125,7 +124,7 @@ export default function HearingAccessibilityPage() {
               </p>
               <p className="mt-4 text-lg text-foreground-secondary leading-relaxed">
                 Traditional hearing aids amplify sound through the air, which
-                doesnt help if the problem is in how sound travels through the
+                doesn’t help if the problem is in how sound travels through the
                 ear. Bone-conduction technology bypasses this problem entirely.
               </p>
             </div>
@@ -268,7 +267,7 @@ export default function HearingAccessibilityPage() {
             ].map((feature) => (
               <div
                 key={feature.title}
-                className="p-6 rounded-xl border border-gray-200"
+                className="p-6 rounded-xl border border-line"
               >
                 <h3 className="text-lg font-semibold text-foreground">
                   {feature.title}
@@ -296,7 +295,7 @@ export default function HearingAccessibilityPage() {
               Be the First to Know
             </h2>
             <p className="mt-4 text-lg text-foreground-secondary max-w-2xl mx-auto">
-              We're working hard to bring this app to you. Sign up to be
+              We’re working hard to bring this app to you. Sign up to be
               notified when it launches—and get early access to beta testing.
             </p>
           </div>
@@ -314,7 +313,7 @@ export default function HearingAccessibilityPage() {
 
               <NotifyForm />
 
-              <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="mt-6 pt-6 border-t border-line">
                 <p className="text-sm text-foreground-secondary text-center mb-3">
                   Want to help shape the app?
                 </p>
@@ -381,7 +380,7 @@ export default function HearingAccessibilityPage() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="flex gap-4 p-6 rounded-xl border border-gray-200"
+                  className="flex gap-4 p-6 rounded-xl border border-line"
                 >
                   <svg
                     className="h-6 w-6 shrink-0 text-success"

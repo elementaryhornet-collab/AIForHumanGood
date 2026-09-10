@@ -96,7 +96,7 @@ export function HearingCheckIn() {
           </div>
 
           {status.streakWeeks > 1 && (
-            <div className="rounded-xl border border-gray-200 px-5 py-4 text-center">
+            <div className="rounded-xl border border-line px-5 py-4 text-center">
               <p
                 className="text-3xl font-bold text-primary"
                 style={{ fontVariantNumeric: "tabular-nums" }}
@@ -153,7 +153,7 @@ export function HearingCheckIn() {
         {store.sessions.length > 0 ? (
           <Results store={store} />
         ) : (
-          <div className="rounded-xl border border-dashed border-gray-300 p-8 text-center">
+          <div className="rounded-xl border border-dashed border-line-strong p-8 text-center">
             <h2 className="text-xl font-semibold text-foreground">
               Nothing tracked yet
             </h2>

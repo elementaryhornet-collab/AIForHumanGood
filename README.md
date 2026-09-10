@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI For Human Good
 
-## Getting Started
+Website for a nonprofit using AI to build accessible technology. The flagship
+initiative is a bone-conduction hearing assist mobile app; the site is built to
+carry further initiatives without being restructured around any one of them.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Commands
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Development server |
+| `npm run build` | Static export to `out/` |
+| `npm run start` | Serve a production build |
+| `npm run lint` | ESLint |
+| `npm test` | Contrast and audiometry test suites |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Stack
 
-## Learn More
+- **Next.js 16** (App Router) with `output: "export"` — the site builds to
+  static files, so there is no server at runtime.
+- **Tailwind CSS 4**, themed entirely through CSS custom properties in
+  `src/app/globals.css`.
+- **TypeScript**, and **Inter** loaded via `next/font`.
+- Deployed to **Firebase Hosting** (`firebase.json` serves `out/`).
 
-To learn more about Next.js, take a look at the following resources:
+## Weekly hearing check-in
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`/hearing-check` is a browser-based pure-tone screening that tracks whether a
+visitor's hearing is changing over time. It runs a modified Hughson-Westlake
+staircase across six frequencies in each ear and stores results in
+`localStorage` — no account, no upload, nothing leaves the device.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A browser cannot calibrate its own output, so the levels it records are **not
+dB HL** and mean nothing in absolute terms. They are only comparable to the
+same person on the same headphones at the same volume, which is why the feature
+is framed as a trend tracker and a screening aid rather than a hearing test.
 
-## Deploy on Vercel
+## Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm test
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `tests/contrast.test.mjs` parses the design tokens straight out of
+  `globals.css` and asserts every foreground/background pairing meets WCAG 2.2
+  AA in all four theme states (light, dark, high contrast, high contrast dark).
+  Editing the palette cannot silently regress contrast.
+- `tests/audiometry.test.cjs` drives the threshold staircase against simulated
+  listeners with known hearing, checking it recovers them, spots asymmetry
+  between ears, and catches a listener who guesses through the silent trials.
+
+## Accessibility
+
+WCAG 2.2 AA is the floor, not the goal — see `CLAUDE.md` for the full list of
+requirements this project holds itself to.

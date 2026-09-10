@@ -25,7 +25,7 @@ export default function ContactPage() {
                 Get in Touch
               </h2>
               <p className="mt-4 text-lg text-foreground-secondary">
-                Fill out the form and we'll get back to you within 2 business
+                Fill out the form and we’ll get back to you within 2 business
                 days. For urgent matters, please email us directly.
               </p>
 
@@ -85,7 +85,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-foreground">Location</h3>
                     <p className="text-foreground-secondary">
-                      We're a remote-first organization serving communities
+                      We’re a remote-first organization serving communities
                       worldwide.
                     </p>
                   </div>
@@ -126,19 +126,19 @@ export default function ContactPage() {
                 <div className="flex flex-wrap gap-4">
                   <a
                     href="#"
-                    className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
+                    className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
                   >
                     <span>LinkedIn</span>
                   </a>
                   <a
                     href="#"
-                    className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
+                    className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
                   >
                     <span>Twitter</span>
                   </a>
                   <a
                     href="#"
-                    className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
+                    className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
                   >
                     <span>GitHub</span>
                   </a>

@@ -45,11 +45,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         }
         aria-invalid={error ? "true" : undefined}
         className={cn(
-          "block w-full rounded-lg border border-gray-300 bg-white px-4 py-3",
-          "text-foreground placeholder:text-gray-400",
+          "block w-full rounded-lg border border-line-strong bg-surface px-4 py-3",
+          "text-foreground placeholder:text-muted-foreground",
           "transition-colors",
           "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20",
-          "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500",
+          "disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground",
           error && "border-error focus:border-error focus:ring-error/20",
           className
         )}
@@ -106,11 +106,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           }
           aria-invalid={error ? "true" : undefined}
           className={cn(
-            "block w-full rounded-lg border border-gray-300 bg-white px-4 py-3",
-            "text-foreground placeholder:text-gray-400",
+            "block w-full rounded-lg border border-line-strong bg-surface px-4 py-3",
+            "text-foreground placeholder:text-muted-foreground",
             "transition-colors resize-y min-h-[120px]",
             "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20",
-            "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500",
+            "disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground",
             error && "border-error focus:border-error focus:ring-error/20",
             className
           )}

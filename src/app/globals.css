@@ -44,6 +44,18 @@
   --accent: var(--color-amber);
   --accent-foreground: var(--color-charcoal);
 
+  /* Semantic surfaces. Each one flips with the theme, so components never
+     hardcode a literal that only works on one background. */
+  --surface: var(--color-white);
+  --line: var(--color-gray-300);
+  --line-strong: #8b93a1;
+  --muted: var(--color-gray-100);
+  --muted-foreground: var(--color-gray-600);
+  --success-text: var(--color-forest-dark);
+  --warning-text: #8a6320;
+  --teal-text: var(--color-teal-dark);
+  --primary-strong: var(--color-ocean-dark);
+
   /* Typography */
   --font-size-base: 18px;
   --line-height-base: 1.7;
@@ -87,21 +99,64 @@
     --background-secondary: #1e293b;
     --foreground: #f1f5f9;
     --foreground-secondary: #94a3b8;
-    --primary: var(--color-ocean-light);
+    --primary: #35a0b5;
+    --primary-foreground: #0b1220;
     --accent: var(--color-amber-light);
+
+    --surface: #1e293b;
+    --line: #334155;
+    --line-strong: #6b7c93;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --success-text: var(--color-forest-light);
+    --warning-text: var(--color-amber-light);
+    --teal-text: var(--color-teal-light);
+    --primary-strong: #7fd4e6;
 
     --glass-bg: rgba(15, 23, 42, 0.8);
     --glass-border: rgba(255, 255, 255, 0.1);
   }
 }
 
-/* High Contrast Mode */
+/* High Contrast Mode. Split by scheme so a viewer who wants dark AND high
+   contrast is not forced back onto a white page. */
 @media (prefers-contrast: high) {
   :root {
     --foreground: #000000;
     --background: #ffffff;
     --primary: #0d4f5c;
+    --surface: #ffffff;
+    --line: #000000;
+    --line-strong: #000000;
+    --muted: #ffffff;
+    --muted-foreground: #000000;
+    --success-text: #14532d;
+    --warning-text: #6b4a10;
+    --teal-text: #14494b;
+    --primary-strong: #0d4f5c;
     --shadow-soft: 0 0 0 2px currentColor;
+  }
+}
+
+@media (prefers-contrast: high) and (prefers-color-scheme: dark) {
+  :root {
+    --foreground: #ffffff;
+    --background: #000000;
+    --background-secondary: #000000;
+    --foreground-secondary: #ffffff;
+    --primary: #7fd4e6;
+    --primary-foreground: #000000;
+    --accent: #ffd166;
+    --accent-foreground: #000000;
+    --surface: #000000;
+    --line: #ffffff;
+    --line-strong: #ffffff;
+    --muted: #000000;
+    --muted-foreground: #ffffff;
+    --success-text: #7ee2b0;
+    --warning-text: #ffd166;
+    --teal-text: #8ae8e8;
+    --primary-strong: #7fd4e6;
   }
 }
 
@@ -123,6 +178,19 @@
   --color-amber-light: var(--color-amber-light);
   --color-teal: var(--color-teal);
   --color-teal-light: var(--color-teal-light);
+  --color-charcoal: var(--color-charcoal);
+  --color-forest-dark: var(--color-forest-dark);
+  --color-amber-dark: var(--color-amber-dark);
+  --color-teal-dark: var(--color-teal-dark);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-success-text: var(--success-text);
+  --color-warning-text: var(--warning-text);
+  --color-teal-text: var(--teal-text);
+  --color-primary-strong: var(--primary-strong);
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
   --color-error: var(--color-error);

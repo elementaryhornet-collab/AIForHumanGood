@@ -177,7 +177,7 @@ export function TestRunner({
             <li key={item.id}>
               <label
                 htmlFor={item.id}
-                className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-4 transition-colors hover:bg-gray-100/60"
+                className="flex cursor-pointer items-start gap-3 rounded-xl border border-line p-4 transition-colors hover:bg-muted/60"
               >
                 <input
                   type="checkbox"
@@ -331,7 +331,7 @@ export function TestRunner({
           </span>
         </div>
         <div
-          className="mt-2 h-3 w-full overflow-hidden rounded-full bg-gray-200"
+          className="mt-2 h-3 w-full overflow-hidden rounded-full bg-muted"
           role="progressbar"
           aria-valuenow={percent}
           aria-valuemin={0}
@@ -375,7 +375,7 @@ export function TestRunner({
         {announcement}
       </p>
 
-      <div className="mt-8 border-t border-gray-200 pt-6">
+      <div className="mt-8 border-t border-line pt-6">
         <Button onClick={stopTest} variant="ghost">
           Stop and discard this check-in
         </Button>
