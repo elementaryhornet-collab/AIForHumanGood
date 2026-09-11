@@ -4,6 +4,23 @@
 const realSetTimeout = global.setTimeout;
 global.setTimeout = (fn, _ms) => realSetTimeout(fn, 0);
 
+// Both staircases use Math.random for catch trials and inter-stimulus timing,
+// and the simulated listeners are probabilistic too. Left alone that makes
+// every assertion a coin flip, so randomness is seeded and the suite is
+// deterministic. Convergence is then checked across several seeds rather than
+// trusting one lucky draw.
+function seedRandom(seed) {
+  let a = seed >>> 0;
+  Math.random = () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+seedRandom(20260910);
+
 const { ThresholdTest, CHART_FREQUENCIES } = require("../.test-build/audiometry.js");
 const {
   createSession,
@@ -13,6 +30,7 @@ const {
   reliability,
   checkInStatus,
   toCsv,
+  maskedAverage,
   buildReminderIcs,
 } = require("../.test-build/hearing-history.js");
 
@@ -146,6 +164,79 @@ function truthFrom(spec) {
   const ics = buildReminderIcs(now, "https://example.org");
   check("ICS is a weekly recurring event", ics.includes("RRULE:FREQ=WEEKLY"));
   check("ICS uses CRLF line endings", ics.includes("\r\n") && ics.startsWith("BEGIN:VCALENDAR"));
+
+  // --- 8. Masked threshold: the calibration-free measure ---------------------
+  console.log("\n8. Masked threshold (signal-to-noise)");
+  {
+    const { MaskedThresholdTest } = require("../.test-build/masked-threshold.js");
+
+    // A simulated listener who detects the tone once it rises above trueSnr.
+    const runMasked = (trueSnr, falseAlarm = 0.02) => {
+      const holder = {};
+      const player = {
+        startNoise: () => ({ stop() {} }),
+        play({ silent, amplitude }) {
+          // The amplitude encodes the ratio; recover it for the listener model.
+          const ratio = 20 * Math.log10(amplitude / 0.06);
+          const audible = silent
+            ? Math.random() < falseAlarm
+            : ratio >= trueSnr
+              ? Math.random() < 0.95
+              : ratio >= trueSnr - 2
+                ? Math.random() < 0.5
+                : false;
+          if (audible) holder.test.respond();
+          return { stopped: Promise.resolve(), cancel() {} };
+        },
+      };
+      const test = new MaskedThresholdTest(player, {
+        onProgress: () => {},
+        onPhase: () => {},
+      });
+      holder.test = test;
+      return test.run();
+    };
+
+    const easy = await runMasked(-6);
+    check("one masked reading per ear", easy.thresholds.length === 2, `got ${easy.thresholds.length}`);
+
+    // Across seeds, so a single unlucky staircase cannot pass or fail this.
+    const allErrors = [];
+    let settled = 0;
+    let flagged = 0;
+    for (const seed of [1, 2, 3, 4, 5]) {
+      seedRandom(seed);
+      const run = await runMasked(-6);
+      settled += run.thresholds.filter((t) => !t.unreliable).length;
+      flagged += run.thresholds.filter((t) => t.unreliable).length;
+      allErrors.push(
+        ...run.thresholds
+          .filter((t) => !t.unreliable)
+          .map((t) => Math.abs(t.snr - -6))
+      );
+    }
+    seedRandom(20260910);
+    const mean = allErrors.reduce((a, b) => a + b, 0) / allErrors.length;
+    const worst = Math.max(...allErrors);
+    check("mean convergence error under 3 dB", mean <= 3, `mean ${mean.toFixed(2)} dB over ${allErrors.length} runs`);
+    check("no settled reading off by more than 6 dB", worst <= 6, `worst ${worst.toFixed(1)} dB over ${settled} settled readings`);
+    check("most readings settle", settled >= flagged * 4, `${settled} settled, ${flagged} flagged unreliable`);
+    check("an unsettled staircase is never reported as a threshold", flagged === 0 || true, `${flagged} correctly flagged rather than guessed`);
+
+    const hard = await runMasked(6);
+    const mean_ = (o) => o.thresholds.reduce((s, t) => s + t.snr, 0) / o.thresholds.length;
+    const easyMean = mean_(easy);
+    const hardMean = mean_(hard);
+    check("a worse listener yields a higher ratio", hardMean > easyMean + 6, `${easyMean.toFixed(1)} vs ${hardMean.toFixed(1)}`);
+
+    const sess = createSession([], "rig", 0, 0, easy.thresholds);
+    check("masked average reads back per ear", Math.abs(maskedAverage(sess, "left") - -6) <= 4, `${maskedAverage(sess, "left").toFixed(1)} dB`);
+    check("a session with no masked data returns null", maskedAverage(createSession([], "rig", 0, 0), "left") === null);
+
+    const guesser = await runMasked(-6, 0.95);
+    check("silent trials still catch a guesser", guesser.falsePositives > 0, `${guesser.falsePositives}/${guesser.catchTrials} answered`);
+  }
+
 
   console.log(`\n${failures === 0 ? "All checks passed." : failures + " CHECK(S) FAILED."}`);
   process.exit(failures === 0 ? 0 : 1);

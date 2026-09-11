@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Results } from "./Results";
 import { TestRunner } from "./TestRunner";
 import type { TestOutcome } from "@/lib/audiometry";
+import type { MaskedOutcome } from "@/lib/masked-threshold";
 import {
   buildReminderIcs,
   checkInStatus,
@@ -32,12 +33,17 @@ export function HearingCheckIn() {
 
   const status = checkInStatus(store);
 
-  const handleComplete = (outcome: TestOutcome, setupLabel: string) => {
+  const handleComplete = (
+    outcome: TestOutcome,
+    setupLabel: string,
+    masked?: MaskedOutcome
+  ) => {
     const session = createSession(
       outcome.thresholds,
       setupLabel,
-      outcome.catchTrials,
-      outcome.falsePositives
+      outcome.catchTrials + (masked?.catchTrials ?? 0),
+      outcome.falsePositives + (masked?.falsePositives ?? 0),
+      masked?.thresholds
     );
     const { persisted } = saveSession(session);
     setSaveFailed(!persisted);

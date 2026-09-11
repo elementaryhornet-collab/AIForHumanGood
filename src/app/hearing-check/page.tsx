@@ -58,6 +58,11 @@ export default function HearingCheckPage() {
                 whole point. It is a screening aid, never a diagnosis, and it
                 does not replace an audiologist.
               </p>
+              <p className="mt-3 text-foreground-secondary">
+                The check-in also ends with a short noise test, which measures a
+                ratio rather than a level. That figure does survive a change of
+                headphones — it is the one to read if you ever switch devices.
+              </p>
             </div>
           </div>
         </div>

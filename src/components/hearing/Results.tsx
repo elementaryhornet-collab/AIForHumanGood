@@ -11,6 +11,8 @@ import {
   clearAll,
   compare,
   download,
+  maskedAverage,
+  MASKED_SHIFT_DB,
   pta,
   reliability,
   setBaseline,
@@ -53,6 +55,15 @@ export function Results({ store }: ResultsProps) {
   const isBaseline = baseline.id === latest.id;
   const comparison = isBaseline ? null : compare(baseline, latest);
   const gap = asymmetry(latest);
+  const maskedNow = {
+    right: maskedAverage(latest, "right"),
+    left: maskedAverage(latest, "left"),
+  };
+  const maskedBase = {
+    right: maskedAverage(baseline, "right"),
+    left: maskedAverage(baseline, "left"),
+  };
+  const hasMasked = maskedNow.right !== null || maskedNow.left !== null;
   const trust = reliability(latest);
   const noResponses = latest.thresholds.filter((t) => t.noResponse);
 
@@ -169,6 +180,63 @@ export function Results({ store }: ResultsProps) {
           )}
         </div>
       </section>
+
+      {hasMasked && (
+        <section aria-labelledby="masked-heading">
+          <h2
+            id="masked-heading"
+            className="text-2xl font-bold text-foreground sm:text-3xl"
+          >
+            The number that travels
+          </h2>
+          <p className="mt-4 max-w-2xl text-foreground-secondary">
+            How far below a background noise you could still pick out a tone,
+            in decibels. Lower is better. Because it is a ratio between two
+            sounds sharing one signal path, this figure holds up even when you
+            change headphones — unlike everything else on this page.
+          </p>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {(["right", "left"] as const).map((ear) => {
+              const now = maskedNow[ear];
+              if (now === null) return null;
+              const then = maskedBase[ear];
+              const delta = then === null || isBaseline ? null : now - then;
+              return (
+                <div key={ear} className="rounded-xl border border-line p-5">
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {earLabel(ear)}
+                  </h3>
+                  <p
+                    className="mt-1 text-3xl font-bold text-foreground"
+                    style={{ fontVariantNumeric: "tabular-nums" }}
+                  >
+                    {now > 0 ? "+" : ""}
+                    {now.toFixed(1)} dB
+                  </p>
+                  <p className="mt-2 text-sm text-foreground-secondary">
+                    {delta === null
+                      ? "Your baseline for this measure."
+                      : Math.abs(delta) < MASKED_SHIFT_DB
+                        ? `Within ${Math.abs(delta).toFixed(1)} dB of baseline — steady.`
+                        : delta > 0
+                          ? `${delta.toFixed(1)} dB worse than baseline. Tones had to stand further above the noise before you caught them.`
+                          : `${Math.abs(delta).toFixed(1)} dB better than baseline.`}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {comparison?.setupMismatch && (
+            <p className="mt-4 max-w-2xl rounded-xl border border-line bg-muted p-4 text-sm text-foreground-secondary">
+              You changed headphones since your baseline, so the audiogram below
+              is not directly comparable. These two figures still are — they are
+              the ones to read this week.
+            </p>
+          )}
+        </section>
+      )}
 
       <section aria-labelledby="audiogram-heading">
         <h2

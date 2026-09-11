@@ -11,6 +11,7 @@ import {
   type Ear,
   type Threshold,
 } from "./audiometry";
+import type { MaskedThreshold } from "./masked-threshold";
 
 const STORAGE_KEY = "aifhg.hearing.v1";
 
@@ -35,6 +36,11 @@ export interface Session {
   thresholds: Threshold[];
   catchTrials: number;
   falsePositives: number;
+  /**
+   * Absent on check-ins recorded before the masked test existed, and on any
+   * check-in where the listener skipped it.
+   */
+  maskedThresholds?: MaskedThreshold[];
 }
 
 export interface HearingStore {
@@ -139,7 +145,8 @@ export function createSession(
   thresholds: Threshold[],
   setupLabel: string,
   catchTrials: number,
-  falsePositives: number
+  falsePositives: number,
+  maskedThresholds?: MaskedThreshold[]
 ): Session {
   return {
     id:
@@ -152,8 +159,26 @@ export function createSession(
     thresholds,
     catchTrials,
     falsePositives,
+    ...(maskedThresholds?.length ? { maskedThresholds } : {}),
   };
 }
+
+/**
+ * Mean signal-to-noise ratio across the masked frequencies for one ear. Unlike
+ * the pure-tone average this survives a change of headphones, so it is the
+ * figure to trust when a check-in was taken on different hardware.
+ */
+export function maskedAverage(session: Session, ear: Ear): number | null {
+  const values = (session.maskedThresholds ?? [])
+    .filter((t) => t.ear === ear && !t.unreliable)
+    .map((t) => t.snr);
+  return values.length
+    ? values.reduce((sum, v) => sum + v, 0) / values.length
+    : null;
+}
+
+/** A masked ratio this much worse than baseline is worth surfacing. */
+export const MASKED_SHIFT_DB = 4;
 
 // ---------------------------------------------------------------------------
 // Analysis
@@ -336,16 +361,39 @@ function streak(sessions: Session[], now: Date): number {
 
 export function toCsv(sessions: Session[]): string {
   const rows = [
-    ["date", "setup", "ear", "frequency_hz", "relative_level", "no_response"],
+    [
+      "date",
+      "setup",
+      "measure",
+      "ear",
+      "frequency_hz",
+      "value",
+      "unit",
+      "no_response",
+    ],
   ];
   for (const session of sessions) {
     for (const t of session.thresholds) {
       rows.push([
         session.date,
         session.setupLabel,
+        "pure_tone",
         t.ear,
         String(t.frequency),
         String(t.level),
+        "relative_level_uncalibrated",
+        t.noResponse ? "yes" : "no",
+      ]);
+    }
+    for (const t of session.maskedThresholds ?? []) {
+      rows.push([
+        session.date,
+        session.setupLabel,
+        "masked",
+        t.ear,
+        String(t.frequency),
+        String(t.snr),
+        "db_snr",
         t.noResponse ? "yes" : "no",
       ]);
     }

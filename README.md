@@ -42,6 +42,15 @@ dB HL** and mean nothing in absolute terms. They are only comparable to the
 same person on the same headphones at the same volume, which is why the feature
 is framed as a trend tracker and a screening aid rather than a hearing test.
 
+It therefore ends with a second, optional measurement: a masked threshold,
+reported as the signal-to-noise ratio at which a tone stays audible inside a
+band of noise. Because a ratio compares two sounds travelling the same signal
+path, the device's unknown response applies to both and cancels out — so unlike
+the audiogram, that number survives a change of headphones. It is the same
+property that lets the WHO's digits-in-noise screener run uncalibrated, and the
+reason the clinical Threshold Equalizing Noise test reports a ratio rather than
+a level.
+
 ## Testing
 
 ```bash

@@ -49,6 +49,7 @@ src/
     ├── utils.ts            # cn() helper for class merging
     ├── config.ts           # Contact email
     ├── audiometry.ts       # Tone generation + threshold staircase
+    ├── masked-threshold.ts # Calibration-free signal-to-noise measure
     └── hearing-history.ts  # Check-in storage and trend analysis
 
 tests/

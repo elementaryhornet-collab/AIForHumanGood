@@ -13,14 +13,23 @@ import {
   type TestPhase,
   type TestProgress,
 } from "@/lib/audiometry";
+import {
 
-type Step = "setup" | "sides" | "volume" | "test";
+  MaskedThresholdTest,
+  type MaskedOutcome,
+} from "@/lib/masked-threshold";
+
+type Step = "setup" | "sides" | "volume" | "test" | "masked-intro" | "masked";
 
 const CALIBRATION_LEVEL = 55;
 
 interface TestRunnerProps {
   suggestedSetup?: string;
-  onComplete: (outcome: TestOutcome, setupLabel: string) => void;
+  onComplete: (
+    outcome: TestOutcome,
+    setupLabel: string,
+    masked?: MaskedOutcome
+  ) => void;
   onCancel: () => void;
 }
 
@@ -43,8 +52,11 @@ export function TestRunner({
   const [phase, setPhase] = useState<TestPhase>("idle");
   const [announcement, setAnnouncement] = useState("");
 
+  const [pureOutcome, setPureOutcome] = useState<TestOutcome | null>(null);
+
   const playerRef = useRef<TonePlayer | null>(null);
   const testRef = useRef<ThresholdTest | null>(null);
+  const maskedRef = useRef<MaskedThresholdTest | null>(null);
 
   const player = useCallback(() => {
     if (!playerRef.current) playerRef.current = new TonePlayer();
@@ -54,6 +66,7 @@ export function TestRunner({
   useEffect(() => {
     return () => {
       testRef.current?.abort();
+      maskedRef.current?.abort();
       playerRef.current?.close();
     };
   }, []);
@@ -133,13 +146,52 @@ export function TestRunner({
 
     const outcome = await test.run();
     testRef.current = null;
-    if (outcome) onComplete(outcome, setupLabel);
+    if (!outcome) return;
+    // The masked test is offered rather than imposed: it adds about two
+    // minutes, and the audiogram above already stands on its own.
+    setPureOutcome(outcome);
+    setProgress(null);
+    setStep("masked-intro");
+  };
+
+  const startMasked = async () => {
+    if (!pureOutcome) return;
+    setStep("masked");
+    setPhase("between");
+
+    const test = new MaskedThresholdTest(player(), {
+      onProgress: (p) => {
+        setProgress({ ...p });
+        setAnnouncement(
+          `Noise test, step ${p.stepIndex + 1} of ${p.totalSteps}. ${earLabel(
+            p.ear
+          )}, ${formatFrequency(p.frequency)}.`
+        );
+      },
+      onPhase: setPhase,
+    });
+    maskedRef.current = test;
+
+    const masked = await test.run();
+    maskedRef.current = null;
+    onComplete(pureOutcome, setupLabel, masked ?? undefined);
+  };
+
+  const skipMasked = () => {
+    if (pureOutcome) onComplete(pureOutcome, setupLabel);
   };
 
   const stopTest = () => {
     testRef.current?.abort();
     testRef.current = null;
     onCancel();
+  };
+
+  // Abandoning the noise test keeps the audiogram that was already measured.
+  const stopMasked = () => {
+    maskedRef.current?.abort();
+    maskedRef.current = null;
+    skipMasked();
   };
 
   // -------------------------------------------------------------------------
@@ -311,13 +363,58 @@ export function TestRunner({
     );
   }
 
-  const total = progress?.totalSteps ?? 12;
+  if (step === "masked-intro") {
+    return (
+      <div className="glass-card p-6 sm:p-8">
+        <h2 className="text-2xl font-bold text-foreground">
+          Audiogram done. One more, worth two minutes
+        </h2>
+        <p className="mt-3 text-foreground-secondary">
+          What you just took measures the quietest tone you can hear. It is
+          useful week to week, but it cannot travel: a browser has no idea how
+          loud your headphones actually are, so those numbers mean nothing on a
+          different device.
+        </p>
+        <p className="mt-3 text-foreground-secondary">
+          This next one measures something that does travel — how far below a
+          background noise a tone can still be picked out. Because it is a
+          ratio between two sounds going through the same headphones, whatever
+          your hardware does to one it does to the other, and the result holds
+          up even if you switch devices. It is the same reason the World Health
+          Organisation&rsquo;s hearing screener works without calibration.
+        </p>
+        <p className="mt-3 text-foreground-secondary">
+          You will hear a steady hiss, and quiet tones inside it. Press the
+          button whenever you catch one. One pitch in each ear, a little over
+          two minutes. It asks more of you than the audiogram did — the tones
+          get genuinely hard to pick out, and that is the point.
+        </p>
+
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Button size="lg" onClick={startMasked}>
+            Take the noise test
+          </Button>
+          <Button size="lg" variant="outline" onClick={skipMasked}>
+            Skip — save what I have
+          </Button>
+        </div>
+        <p className="mt-3 text-sm text-foreground-secondary">
+          Skipping is fine. Your audiogram is already recorded either way.
+        </p>
+      </div>
+    );
+  }
+
+  const isMasked = step === "masked";
+  const total = progress?.totalSteps ?? (isMasked ? 4 : 12);
   const done = progress?.stepIndex ?? 0;
   const percent = Math.round((done / total) * 100);
 
   return (
     <div className="glass-card p-6 sm:p-8">
-      <h2 className="text-2xl font-bold text-foreground">Listening test</h2>
+      <h2 className="text-2xl font-bold text-foreground">
+        {isMasked ? "Noise test" : "Listening test"}
+      </h2>
 
       <div className="mt-6">
         <div className="flex items-baseline justify-between text-sm text-foreground-secondary">
@@ -346,14 +443,16 @@ export function TestRunner({
       </div>
 
       <p className="mt-8 text-lg text-foreground">
-        Press the button the moment you hear a tone, however faint. Most tones
-        will be very quiet, and some are so quiet you will hear nothing at all —
-        that is expected, so wait rather than guess.
+        {isMasked
+          ? "A steady hiss will play. Press the button whenever you catch a tone inside it. The tone gets harder to pick out as you go, and some trials have no tone at all."
+          : "Press the button the moment you hear a tone, however faint. Most tones will be very quiet, and some are so quiet you will hear nothing at all — that is expected, so wait rather than guess."}
       </p>
 
       <button
         type="button"
-        onClick={() => testRef.current?.respond()}
+        onClick={() =>
+          isMasked ? maskedRef.current?.respond() : testRef.current?.respond()
+        }
         className="mt-6 w-full rounded-xl bg-primary px-8 py-10 text-2xl font-bold text-primary-foreground transition-colors hover:bg-ocean-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         I heard it
@@ -376,8 +475,10 @@ export function TestRunner({
       </p>
 
       <div className="mt-8 border-t border-line pt-6">
-        <Button onClick={stopTest} variant="ghost">
-          Stop and discard this check-in
+        <Button onClick={isMasked ? stopMasked : stopTest} variant="ghost">
+          {isMasked
+            ? "Stop — keep my audiogram, skip this part"
+            : "Stop and discard this check-in"}
         </Button>
       </div>
     </div>

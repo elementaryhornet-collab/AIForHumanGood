@@ -96,6 +96,60 @@ export class TonePlayer {
     return this.ctx;
   }
 
+  /** Shared with the masked-threshold test so both run on one context. */
+  get audioContext() {
+    return this.context();
+  }
+
+  /**
+   * Continuous band-limited noise in one ear, used as a masker.
+   *
+   * The band is centred on the tone it will mask. That matters: if the masker
+   * were broadband, a headphone that rolls off at 4 kHz would attenuate the
+   * tone but not most of the noise, and the ratio between them would shift
+   * with the hardware. Keeping both inside the same narrow band means the
+   * device response applies to both and cancels out of the ratio.
+   */
+  startNoise(options: { frequency: number; ear: Ear; amplitude: number }) {
+    const ctx = this.context();
+    const seconds = 2;
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+
+    const band = ctx.createBiquadFilter();
+    band.type = "bandpass";
+    band.frequency.value = options.frequency;
+    band.Q.value = 4;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(options.amplitude, ctx.currentTime + 0.25);
+
+    const merger = ctx.createChannelMerger(2);
+    source.connect(band);
+    band.connect(gain);
+    gain.connect(merger, 0, options.ear === "left" ? 0 : 1);
+    merger.connect(ctx.destination);
+    source.start();
+
+    return {
+      stop: () => {
+        try {
+          gain.gain.cancelScheduledValues(ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
+          source.stop(ctx.currentTime + 0.25);
+        } catch {
+          // already stopped
+        }
+      },
+    };
+  }
+
   async unlock() {
     const ctx = this.context();
     if (ctx.state === "suspended") await ctx.resume();
@@ -116,6 +170,10 @@ export class TonePlayer {
     ear: Ear;
     level: number;
     silent?: boolean;
+    /** Bypasses the level scale. Used by the masked test, which works in ratios. */
+    amplitude?: number;
+    /** Defaults to the audiogram's three pulses. */
+    pulses?: number;
   }): { stopped: Promise<void>; cancel: () => void } {
     const ctx = this.context();
     const merger = ctx.createChannelMerger(2);
@@ -131,13 +189,16 @@ export class TonePlayer {
     osc.connect(gain);
     gain.connect(merger, 0, options.ear === "left" ? 0 : 1);
 
-    const peak = options.silent ? 0 : amplitudeForLevel(options.level);
+    const peak = options.silent
+      ? 0
+      : (options.amplitude ?? amplitudeForLevel(options.level));
     const ramp = RAMP_MS / 1000;
     const pulse = PULSE_MS / 1000;
     const gap = PULSE_GAP_MS / 1000;
     const start = ctx.currentTime + 0.05;
 
-    for (let i = 0; i < PULSE_COUNT; i++) {
+    const pulseCount = options.pulses ?? PULSE_COUNT;
+    for (let i = 0; i < pulseCount; i++) {
       const at = start + i * (pulse + gap);
       gain.gain.setValueAtTime(0, at);
       gain.gain.linearRampToValueAtTime(peak, at + ramp);
@@ -145,7 +206,7 @@ export class TonePlayer {
       gain.gain.linearRampToValueAtTime(0, at + pulse);
     }
 
-    const end = start + PULSE_COUNT * pulse + (PULSE_COUNT - 1) * gap;
+    const end = start + pulseCount * pulse + (pulseCount - 1) * gap;
     osc.start(start);
     osc.stop(end + 0.05);
 
